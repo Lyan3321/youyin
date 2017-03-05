@@ -4,7 +4,7 @@
 
 	<servlet>
 		<servlet-name>loginServlet</servlet-name>
-		<servlet-class>com.youyin.servlet.LoginServlet</servlet-class>
+		<servlet-class>liuyan.youyin.controller.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>loginServlet</servlet-name>

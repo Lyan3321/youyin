@@ -1,4 +1,4 @@
-package com.youyin.utils;
+package liuyan.youyin.utils;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
