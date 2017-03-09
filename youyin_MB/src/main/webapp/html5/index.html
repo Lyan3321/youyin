@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload</title>
+
+	<script src="/youyin_MB/js/jquery.min.js"></script>
+
+	<script type="text/javascript">
+	$(function(){
+		// $('#fileupload').on("change",function(e){
+		// 	var file = e.target.files[0];
+
+		// 	  // 只选择图片文件
+		// 	  if (!file.type.match('image.*')) {
+		// 	    return false;
+		// 	  }
+		// 	var reader = new FileReader();
+
+		// 	reader.readAsDataURL(file);
+
+		// 	reader.onload = function(arg){
+		// 		var img = '<img class="preview" src="' + arg.target.result + '"alt="preview"/>';
+		// 		console.log(img);
+		// 		$(".preview_box").empty().append(img);
+		// 	}
+
+
+		// })
+
+		// $('#upload').on("click",function(e){
+		// 	var form_data = new FormData();
+		// 	var file_data = $("#fileupload").prop("files")[0];
+
+		// 	form_data.append("user","Mike");
+		// 	form_data.append("img",file_data);
+
+		// 	$.ajax({
+		// 		type:"post",
+		// 		url:"/youyin_MB/savePic",
+		// 		dataType:"json",
+		// 		crossDomain:true,
+		// 		processData:false,
+		// 		contentType:false,
+		// 		data:form_data
+		// 	}).success(function(msg){
+		// 		console.log(msg);
+		// 	}).fail(function(msg){
+		// 		console.log(msg);
+		// 	});
+		// })
+
+		$('#uploadbtn').click(function(){
+			$.ajax({
+			    url: '/youyin_MB/savePic',
+			    type: 'POST',
+			    cache: false,
+			    data: new FormData($('#uploadForm')[0]),
+			    processData: false,
+			    contentType: false
+			}).done(function(res) {
+				alert(res);
+			}).fail(function(res) {});
+		});
+
+
+		$('#button').click(function(){
+			$.ajax({
+			    url: '/youyin_MB/menu.json',
+			    type: 'get',
+			    dataType:'json',
+			}).done(function(res) {
+				console.log(res);
+				// alert(res);
+				// alert(JSON.parse(res));
+				// myObj = JSON.parse(res);
+				console.log(res.menus);
+				// console.log(myObj.menus);
+			}).fail(function(res) {});
+		});
+
+	})
+
+	</script>
+</head>
+<body>
+
+<!-- 		<input type="file" name="fileupload" value="fileupload" id="fileupload" accept="image/*">
+		<label for="fileupload">Select a file to upload</label>
+		<div class="preview_box"></div>
+
+		<input type="button" name="upload" id="upload" value="上传" >
+
+		<br>
+		<br> -->
+		<form id="uploadForm" enctype="multipart/form_data">
+			<input type="file" name="file">
+			<button id="uploadbtn" type="button">upload</button>
+		</form>
+
+		<br><br>
+
+		<form id="textForm">
+			<input type="text" name="text">
+			<input type="button" id="button" name="tijiao">
+		</form>
+
+</body>
+</html>
