@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Upload</title>
+<title>Upload</title>
 
-	<script src="/youyin_MB/js/jquery.min.js"></script>
+<script src="/youyin_MB/js/jquery-3.1.1.js"></script>
 
-	<script type="text/javascript">
-	$(function(){
+<script type="text/javascript">
+	$(function() {
 		// $('#fileupload').on("change",function(e){
 		// 	var file = e.target.files[0];
 
@@ -23,7 +23,6 @@
 		// 		console.log(img);
 		// 		$(".preview_box").empty().append(img);
 		// 	}
-
 
 		// })
 
@@ -49,25 +48,25 @@
 		// 	});
 		// })
 
-		$('#uploadbtn').click(function(){
+		$('#uploadbtn').click(function() {
 			$.ajax({
-			    url: '/youyin_MB/savePic',
-			    type: 'POST',
-			    cache: false,
-			    data: new FormData($('#uploadForm')[0]),
-			    processData: false,
-			    contentType: false
+				url : '/youyin_MB/savePic',
+				type : 'POST',
+				cache : false,
+				data : new FormData($('#uploadForm')[0]),
+				processData : false,
+				contentType : false
 			}).done(function(res) {
 				alert(res);
-			}).fail(function(res) {});
+			}).fail(function(res) {
+			});
 		});
 
-
-		$('#button').click(function(){
+		$('#button').click(function() {
 			$.ajax({
-			    url: '/youyin_MB/menu.json',
-			    type: 'get',
-			    dataType:'json',
+				url : '/youyin_MB/menu.json',
+				type : 'get',
+				dataType : 'json',
 			}).done(function(res) {
 				console.log(res);
 				// alert(res);
@@ -75,16 +74,18 @@
 				// myObj = JSON.parse(res);
 				console.log(res.menus);
 				// console.log(myObj.menus);
-			}).fail(function(res) {});
+			}).fail(function(res) {
+			});
 		});
 
-	})
 
-	</script>
+
+	})
+</script>
 </head>
 <body>
 
-<!-- 		<input type="file" name="fileupload" value="fileupload" id="fileupload" accept="image/*">
+	<!-- 		<input type="file" name="fileupload" value="fileupload" id="fileupload" accept="image/*">
 		<label for="fileupload">Select a file to upload</label>
 		<div class="preview_box"></div>
 
@@ -92,17 +93,27 @@
 
 		<br>
 		<br> -->
-		<form id="uploadForm" enctype="multipart/form_data">
-			<input type="file" name="file">
-			<button id="uploadbtn" type="button">upload</button>
-		</form>
+<!-- 	<form id="uploadForm" enctype="multipart/form_data">
+		<input type="file" name="file">
+		<button id="uploadbtn" type="button">upload</button>
+	</form>
 
-		<br><br>
+	<br>
+	<br>
 
-		<form id="textForm">
-			<input type="text" name="text">
-			<input type="button" id="button" name="tijiao">
-		</form>
+	<form id="textForm">
+		<input type="text" name="text"> <input type="button"
+			id="button" name="tijiao">
+	</form>
 
+	<br>
+	<br> -->
+
+	<form id="aaa">
+		<input type="text" id="name" name="name">
+		<input type="password" id="pw" name="password">
+
+	</form>
+		<input type="button" id="btn" value="Post">
 </body>
 </html>
