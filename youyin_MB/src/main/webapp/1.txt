@@ -1,0 +1,29 @@
+{
+    "button": [
+        {
+            "name": "博客", 
+            "type": "view", 
+            "url": "http://ry16704270.imwork.net/youyin_MB/controller"
+        }, 
+        {
+            "name": "菜单", 
+            "sub_button": [
+                {
+                    "key": "text", 
+                    "name": "回复图文", 
+                    "type": "click"
+                }, 
+                {
+                    "name": "博客", 
+                    "type": "view", 
+                    "url": "http://www.cuiyongzhi.com"
+                }
+            ]
+        }, 
+        {
+            "key": "text", 
+            "name": "回复图文", 
+            "type": "click"
+        }
+    ]
+}

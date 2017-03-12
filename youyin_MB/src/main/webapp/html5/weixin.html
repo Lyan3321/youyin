@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>WeUI</title>
+    <script src="/youyin_MB/js/jquery.min.js"></script>
+    <script src="/youyin_MB/js/distpicker.js"></script>
+    <!-- 引入 WeUI -->
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css">
+    
+    <style type="text/css">
+    	.upload_img img{
+    		width:100px;
+    	}
+    </style>
+    
+    <script type="text/javascript">
+    
+
+    
+    	$(function(){
+    		$('#target').distpicker();
+    		
+ 		  $("#area select").on("change", function(e){
+		  var address = $(".area1").val()+$(".area2").val()+$(".area3").val();
+		  //$(".weui-textarea").text() = address;
+		  document.getElementById('bt').innerText = address;
+		  //console.log($(".weui-textarea").val());
+		  //console.log(address);
+	  	})
+
+    	$("#up").on("change", function(e){
+
+		  var file = e.target.files[0]; //获取图片资源
+		
+		  // 只选择图片文件
+		  if (!file.type.match('image.*')) {
+		    return false;
+		  }
+		  
+		  var reader = new FileReader();
+		
+		  reader.readAsDataURL(file); // 读取文件
+		
+		  // 渲染文件
+		  reader.onload = function(arg) {
+		
+		    var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+		    $(".upload_img").empty().append(img);
+		  }
+		});
+ 
+	    	$("#btn").on("click", function(e){
+	    		console.log(111);
+			    var form_data = new FormData();
+		    	var file_data = $("#up").prop("files")[0];
+		    	
+		    	// 把上传的数据放入form_data
+		    	form_data.append("username", $("#weui-input").val());
+		    	form_data.append("address",$("#bt").val());
+		    	form_data.append("machineID",$("#machineID").val());
+		    	form_data.append("img", file_data);
+		    	
+		    	$.ajax({
+		    	    type: "POST", // 上传文件要用POST
+		    	    url: "/youyin_MB/savePic",
+		    	    dataType : "json",
+		    	    crossDomain: true, // 如果用到跨域，需要后台开启CORS
+		    	  processData: false,  // 注意：不要 process data
+		    	  contentType: false,  // 注意：不设置 contentType
+		    	    data: form_data
+		    	}).success(function(msg) {
+		    	    console.log(msg);
+		    	}).fail(function(msg) {
+		    	    console.log(msg);
+		    	});
+	    	});
+	    	
+        })
+        
+    </script>
+</head>
+<body ontouchstart="">
+
+    <!-- 使用 WeUI -->
+<h2>请上传照片</h2>
+
+<div class="upload_img"></div>
+
+<input id="up" type="file" accept="image/*"/>
+
+<div class="weui-cells">
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <input id="username" class="weui-input" type="text" placeholder="请输入收件人姓名"/>
+        </div>
+    </div>
+</div>
+
+<div id="area" data-toggle="distpicker">
+  <select data-province="浙江省" class="area1"></select>
+  <select data-city="杭州市" class="area2"></select>
+  <select data-district="西湖区" class="area3"></select>
+</div> 
+
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <textarea id="bt" class="weui-textarea" placeholder="请输入地址" rows="3"></textarea>
+            <div class="weui-textarea-counter"><span>0</span>/200</div>
+        </div>
+    </div>
+</div>
+
+<div class="weui-cells">
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <input id="machineID" class="weui-input" type="text" placeholder="请输入机器号"/>
+        </div>
+    </div>
+</div>
+
+<input type="button" id="btn" value="提交">
+<br>
+
+<div class="preview_box"></div>
+</body>
+</html>
