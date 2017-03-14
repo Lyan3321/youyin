@@ -2,129 +2,129 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>WeUI</title>
-    <script src="/youyin_MB/js/jquery.min.js"></script>
-    <script src="/youyin_MB/js/distpicker.js"></script>
-    <!-- 引入 WeUI -->
-    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css">
-    
-    <style type="text/css">
-    	.upload_img img{
-    		width:100px;
-    	}
-    </style>
-    
-    <script type="text/javascript">
-    
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<title>youyin</title>
+<script src="/youyin_MB/js/jquery.min.js"></script>
+<!-- 中国省市区地址三级联动jQuery插件 -->
+<script src="/youyin_MB/js/distpicker.js"></script>
+<!-- 引入 WeUI -->
+<link rel="stylesheet"
+	href="https://res.wx.qq.com/open/libs/weui/1.1.1/weui.min.css">
+<link rel="stylesheet" href="/youyin_MB/css/bootstrap.min.css">
 
-    
-    	$(function(){
-    		$('#target').distpicker();
-    		
- 		  $("#area select").on("change", function(e){
-		  var address = $(".area1").val()+$(".area2").val()+$(".area3").val();
-		  //$(".weui-textarea").text() = address;
-		  document.getElementById('bt').innerText = address;
-		  //console.log($(".weui-textarea").val());
-		  //console.log(address);
-	  	})
+<style type="text/css">
+.upload_img img {
+	width: 100px;
+}
+</style>
 
-    	$("#up").on("change", function(e){
+<script type="text/javascript">
+	$(function() {
+		$('#target').distpicker();
 
-		  var file = e.target.files[0]; //获取图片资源
-		
-		  // 只选择图片文件
-		  if (!file.type.match('image.*')) {
-		    return false;
-		  }
-		  
-		  var reader = new FileReader();
-		
-		  reader.readAsDataURL(file); // 读取文件
-		
-		  // 渲染文件
-		  reader.onload = function(arg) {
-		
-		    var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
-		    $(".upload_img").empty().append(img);
-		  }
+		$("#area select").on(
+				"change",
+				function(e) {
+					var address = $(".area1").val() + $(".area2").val()
+							+ $(".area3").val();
+					//$(".weui-textarea").text() = address;
+					document.getElementById('bt').innerText = address;
+					//console.log($(".weui-textarea").val());
+					//console.log(address);
+				})
+
+		$("#up")
+				.on(
+						"change",
+						function(e) {
+
+							var file = e.target.files[0]; //获取图片资源
+
+							// 只选择图片文件
+							if (!file.type.match('image.*')) {
+								return false;
+							}
+
+							var reader = new FileReader();
+
+							reader.readAsDataURL(file); // 读取文件
+
+							// 渲染文件
+							reader.onload = function(arg) {
+
+								var img = '<img class="img-thumbnail img-responsive" src="' + arg.target.result + '" alt="preview"/>';
+								$(".upload_img").empty().append(img);
+							}
+						});
+
+		$("#btn").on("click", function(e) {
+			console.log(111);
+			var form_data = new FormData();
+			var file_data = $("#up").prop("files")[0];
+
+			// 把上传的数据放入form_data
+			form_data.append("username", $("#weui-input").val());
+			form_data.append("address", $("#bt").val());
+			form_data.append("machineID", $("#machineID").val());
+			form_data.append("img", file_data);
+
+			$.ajax({
+				type : "POST", // 上传文件要用POST
+				url : "/youyin_MB/savePic",
+				dataType : "json",
+				crossDomain : true, // 如果用到跨域，需要后台开启CORS
+				processData : false, // 注意：不要 process data
+				contentType : false, // 注意：不设置 contentType
+				data : form_data
+			}).success(function(msg) {
+				console.log(msg);
+			}).fail(function(msg) {
+				console.log(msg);
+			});
 		});
- 
-	    	$("#btn").on("click", function(e){
-	    		console.log(111);
-			    var form_data = new FormData();
-		    	var file_data = $("#up").prop("files")[0];
-		    	
-		    	// 把上传的数据放入form_data
-		    	form_data.append("username", $("#weui-input").val());
-		    	form_data.append("address",$("#bt").val());
-		    	form_data.append("machineID",$("#machineID").val());
-		    	form_data.append("img", file_data);
-		    	
-		    	$.ajax({
-		    	    type: "POST", // 上传文件要用POST
-		    	    url: "/youyin_MB/savePic",
-		    	    dataType : "json",
-		    	    crossDomain: true, // 如果用到跨域，需要后台开启CORS
-		    	  processData: false,  // 注意：不要 process data
-		    	  contentType: false,  // 注意：不设置 contentType
-		    	    data: form_data
-		    	}).success(function(msg) {
-		    	    console.log(msg);
-		    	}).fail(function(msg) {
-		    	    console.log(msg);
-		    	});
-	    	});
-	    	
-        })
-        
-    </script>
+
+	})
+</script>
 </head>
 <body ontouchstart="">
 
-    <!-- 使用 WeUI -->
-<h2>请上传照片</h2>
+	<div class="container">
+	<form action="#"  role="form">
+		<h2>请上传照片</h2>
 
-<div class="upload_img"></div>
+		<div class="upload_img"></div>
 
-<input id="up" type="file" accept="image/*"/>
+		<input id="up" class="form-control" type="file" accept="image/*" />
+		 
+		<div class="form-group">
+			<label for="username" >姓名</label>
+				<input id="username" class="form-control" type="text" placeholder="请输入收件人姓名" />
+		</div>
+		
+		<div id="area" data-toggle="distpicker">
+			<select data-province="---- 选择省 ----" class="area1 form-control pull-left" style="width:33.3%"></select>
+			<select data-city="---- 选择市 ----" class="area2 form-control pull-left" style="width:33.3%"></select>
+			<select data-district="---- 选择区 ----" class="area3 form-control pull-left" style="width:33.3%"></select>
+		</div>
+ 
+ 		<br>
+ 		<br>
+ 		
+ 		<div class="form-group">
+ 			<label for="bt" >地址</label>
+ 				<textarea id="bt" class="form-control" placeholder="请输入地址" rows="3"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="machineID" >机器号</label>	
+				<input id="machineID" class="form-control" type="text" placeholder="请输入机器号" />
+		</div>				
+		<input type="button" id="btn" value="提交" class="btn btn-default center-block">
 
-<div class="weui-cells">
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <input id="username" class="weui-input" type="text" placeholder="请输入收件人姓名"/>
-        </div>
-    </div>
-</div>
+		<div class="preview_box"></div>
 
-<div id="area" data-toggle="distpicker">
-  <select data-province="浙江省" class="area1"></select>
-  <select data-city="杭州市" class="area2"></select>
-  <select data-district="西湖区" class="area3"></select>
-</div> 
-
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <textarea id="bt" class="weui-textarea" placeholder="请输入地址" rows="3"></textarea>
-            <div class="weui-textarea-counter"><span>0</span>/200</div>
-        </div>
-    </div>
-</div>
-
-<div class="weui-cells">
-    <div class="weui-cell">
-        <div class="weui-cell__bd">
-            <input id="machineID" class="weui-input" type="text" placeholder="请输入机器号"/>
-        </div>
-    </div>
-</div>
-
-<input type="button" id="btn" value="提交">
-<br>
-
-<div class="preview_box"></div>
+		</form>
+	</div>
 </body>
 </html>
