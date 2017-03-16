@@ -28,14 +28,6 @@ public class ServletContextListner implements ServletContextListener {
 		
 		InterfaceUrlInti.init();
 		
-//        WeChatTask timer = new WeChatTask();
-//        try {
-//			timer.getToken_getTicket();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 		Timer timer = new Timer();
 		timer.schedule(new TimerTaskUtil(), 1000,7000000);
 	}

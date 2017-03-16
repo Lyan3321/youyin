@@ -2,73 +2,43 @@ package liuyan.youyin.pojo;
 
 public class Order {
 
-	private Integer id;
-	private String userName;
-	private String address;
-	private String machineID;
-	private String picName;
-	private String picPath;
-	
-	public Integer getId() {
-		return id;
+	private String orderID;
+	private String userID;
+	private String imageURL;
+	private OrderStatus status;
+	public String getOrderID() {
+		return orderID;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setOrderID(String orderID) {
+		this.orderID = orderID;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUserID() {
+		return userID;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
-	public String getAddress() {
-		return address;
+	public String getImageURL() {
+		return imageURL;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
-	public String getMachineID() {
-		return machineID;
+	public OrderStatus getStatus() {
+		return status;
 	}
-	public void setMachineID(String machineID) {
-		this.machineID = machineID;
+	public void setStatus(OrderStatus status) {
+		this.status = status;
 	}
-	
-	public String getPicName() {
-		return picName;
-	}
-	public void setPicName(String picName) {
-		this.picName = picName;
-	}
-
-	public String getPicPath() {
-		return picPath;
-	}
-	public void setPicPath(String picPath) {
-		this.picPath = picPath;
-	}
-	
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", userName=" + userName + ", address="
-				+ address + ", machineID=" + machineID + ", picName=" + picName
-				+ ", picAddress=" + picPath + "]";
-	}
-	
-	public Order(String userName, String address, String machineID,
-			String picName, String picAddress) {
+	public Order(String orderID, String userID, String imageURL,
+			OrderStatus status) {
 		super();
-		this.userName = userName;
-		this.address = address;
-		this.machineID = machineID;
-		this.picName = picName;
-		this.picPath = picAddress;
+		this.orderID = orderID;
+		this.userID = userID;
+		this.imageURL = imageURL;
+		this.status = status;
 	}
 	
-	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
+	public Order(){}
+	
 }

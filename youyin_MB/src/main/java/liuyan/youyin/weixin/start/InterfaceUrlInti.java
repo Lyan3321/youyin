@@ -41,6 +41,13 @@ public class InterfaceUrlInti {
             for(Object key : props.keySet()){
                 GlobalConstants.interfaceUrlProperties.put(key, props.get(key));
             }
+            
+            props = new Properties();
+            in = cl.getResourceAsStream("error_msg.properties");
+            props.load(in);
+            for(Object key : props.keySet()){
+                GlobalConstants.interfaceUrlProperties.put(key, props.get(key));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

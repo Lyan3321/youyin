@@ -35,10 +35,7 @@
 					//console.log(address);
 				})
 
-		$("#up")
-				.on(
-						"change",
-						function(e) {
+		$("#up").on("change",function(e) {
 
 							var file = e.target.files[0]; //获取图片资源
 
@@ -60,7 +57,7 @@
 						});
 
 		$("#btn").on("click", function(e) {
-			console.log(111);
+			//console.log(111);
 			var form_data = new FormData();
 			var file_data = $("#up").prop("files")[0];
 
@@ -72,7 +69,8 @@
 
 			$.ajax({
 				type : "POST", // 上传文件要用POST
-				url : "/youyin_MB/savePic",
+				//url : "/youyin_MB/savePic",
+				url: "/youyin_MB/ordercreate",
 				dataType : "json",
 				crossDomain : true, // 如果用到跨域，需要后台开启CORS
 				processData : false, // 注意：不要 process data
@@ -80,6 +78,11 @@
 				data : form_data
 			}).success(function(msg) {
 				console.log(msg);
+				if(msg.status.errorCode == -1){
+					alert("订单提交成功，请等待...");
+				}else{
+					alert(msg.status.errorMsg);
+				}
 			}).fail(function(msg) {
 				console.log(msg);
 			});

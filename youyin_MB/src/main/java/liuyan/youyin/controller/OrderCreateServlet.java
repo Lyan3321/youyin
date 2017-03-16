@@ -1,4 +1,4 @@
-package liuyan.youyin.controller.pic;
+package liuyan.youyin.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,20 +16,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import liuyan.youyin.pojo.Order;
+import liuyan.youyin.pojo.OrderStatus;
+import liuyan.youyin.queue.Queue;
 import liuyan.youyin.weixin.constants.GlobalConstants;
 import liuyan.youyin.weixin.util.HttpUtils;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Servlet implementation class SavePic
  */
-public class SavePic extends HttpServlet {
+public class OrderCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+
+	//常数，用来记录订单ID
+	public static int count = 1;
+	//图片的URL
+	private String filePath;
+	//图片的相对位置
 	private static final String FILE_PATH = "/files/";
 
 	/**
@@ -58,71 +66,78 @@ public class SavePic extends HttpServlet {
 		upload.setSizeMax(1024 * 1024 * 5);
 		
 		Map<String, String> params = new HashMap<String, String>();
+		//订单数加1
+		count++;
 		
 		try {
 			List<FileItem> items = upload.parseRequest(request);
 			//2,遍历items：若是一个一般的表单域，打印信息
 			for(FileItem item: items){
 				Order order = new Order();
+				
 				if(item.isFormField()){
-					if(item.getFieldName().equals("username")){
-						String username = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
-						order.setUserName(username);
-						params.put("username", username);
-					}
-					if(item.getFieldName().equals("address")){
-						String address = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
-						order.setAddress(address);
-						params.put("address", address);
-					}
-					if(item.getFieldName().equals("machineID")){
-						String machineID = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
-						order.setMachineID(machineID);
-						params.put("machineID", machineID);
-					}
-//					String name = item.getFieldName();
-//					String value = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
-//					System.out.println(name + ":" + value);
+					String name = item.getFieldName();
+					String value = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
+					System.out.println(name + ":" + value);
 				}else{
+					//得到item的信息
 					String fieldName = item.getFieldName();
 					String fileName = item.getName();
 					String contentType = item.getContentType();
 					long sizeInBytes = item.getSize();
-					
-					
-					
+					System.out.println(fieldName);
+					System.out.println(fileName);
+					System.out.println(contentType);
+					System.out.println(sizeInBytes);
+					//从item中获取文件名，并拼接系统时间纺织重复
 					fileName = System.currentTimeMillis() + fileName;
-					order.setPicName(fileName);
-					params.put("fileName", fileName);
+					//将文件名加入到Map集合中
+//					params.put("fileName", fileName);
 					
+					//将图片写入到项目文件夹中
 					InputStream in = item.getInputStream();
 					byte [] buffer = new byte[1024];
 					int len = 0;
-					fileName = getServletContext().getRealPath(FILE_PATH) + "\\" + fileName;
+					filePath = getServletContext().getRealPath(FILE_PATH) + "\\" + fileName;
 //					fileName = "G:\\apache-tomcat-7.0.73\\webapps\\youyin_MB\\files\\" + fileName;
-					order.setPicPath(fileName);
-					System.out.println(fileName);
-					OutputStream out = new FileOutputStream(fileName);
+					System.out.println(filePath);
+					
+					OutputStream out = new FileOutputStream(filePath);
 					
 					while((len = in.read(buffer)) != -1){
 						out.write(buffer,0,len);
 					}
-					out.flush();
 					out.close();
 					in.close();
+					//创建订单状态数据
+					OrderStatus orderStatus = new OrderStatus();
+					orderStatus.setState(OrderStatus.ORDER_STATUS_CREATED);
+					//判断图片是否读取到文件夹
+					if(!(new File(filePath)).exists()){
+						orderStatus.setErrorCode(0);
+						orderStatus.setErrorMsg(GlobalConstants.getInterfaceUrl("error_0"));
+					}else{
+						orderStatus.setErrorCode(-1);
+					}
+
+					//将订单信息写入到队列中
+					order.setImageURL(filePath);
+					order.setOrderID(String.valueOf(count));
+					order.setStatus(orderStatus);
+					Queue.orderlist.add(order);
 					
-					response.setCharacterEncoding("UTF-8");
+					//回应微信前端
 					PrintWriter writer = response.getWriter();
+					//根据Order生成json对象
+					JSONObject jsonResp = JSONObject.fromObject(order);
+					System.out.println(jsonResp);
 					
-					writer.print("上传成功");
+					writer.print(jsonResp);
 					writer.flush();
 					writer.close();
 					
-//					Thread.sleep(5000); 
-					
-					if((new File(fileName)).exists()){
+					//转发到节点
 					HttpUtils.sendGet(GlobalConstants.getInterfaceUrl("node1"), params);
-					}
 				}
 			}
 		} catch (Exception e) {
