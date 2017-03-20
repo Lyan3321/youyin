@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import liuyan.youyin.weixin.constants.GlobalConstants;
 import liuyan.youyin.weixin.dispatcher.EventDispatcher;
 import liuyan.youyin.weixin.dispatcher.MsgDispatcher;
 import liuyan.youyin.weixin.util.MessageUtil;
@@ -28,6 +29,7 @@ public class Controller extends HttpServlet {
         String signature = request.getParameter("signature");
         // 时间戳
         String timestamp = request.getParameter("timestamp");
+//        GlobalConstants.interfaceUrlProperties.put("timestamp", timestamp);//将时间戳加入到全局
         // 随机数
         String nonce = request.getParameter("nonce");
         // 随机字符串

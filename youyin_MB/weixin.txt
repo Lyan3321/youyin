@@ -1,0 +1,41 @@
+{
+    "menu": {
+        "button": [
+            {
+                "type": "view", 
+                "name": "定制卡片", 
+                "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8206dd4aab8412a8redirect_uri=http://card.uprins.com/youzhong/gotohome.do?order_id=1response_type=codescope=snsapi_userinfo#wechat_redirect", 
+                "sub_button": [ ]
+            }, 
+            {
+                "type": "view", 
+                "name": "我的足迹", 
+                "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8206dd4aab8412a8redirect_uri=http://card.uprins.com/youzhong/gotomyorder.do?order_id=2response_type=codescope=snsapi_userinfo#wechat_redirect", 
+                "sub_button": [ ]
+            }, 
+            {
+                "name": "帮助", 
+                "sub_button": [
+                    {
+                        "type": "view", 
+                        "name": "操作流程", 
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8206dd4aab8412a8redirect_uri=http://card.uprins.com/youzhong/operationprocess.do?response_type=codescope=snsapi_userinfo#wechat_redirect", 
+                        "sub_button": [ ]
+                    }, 
+                    {
+                        "type": "view", 
+                        "name": "产品展示", 
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8206dd4aab8412a8redirect_uri=http://card.uprins.com/youzhong/productdisplay.do?response_type=codescope=snsapi_userinfo#wechat_redirect", 
+                        "sub_button": [ ]
+                    }, 
+                    {
+                        "type": "view", 
+                        "name": "联系我们", 
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8206dd4aab8412a8redirect_uri=http://card.uprins.com/youzhong/contactus.do?response_type=codescope=snsapi_userinfo#wechat_redirect", 
+                        "sub_button": [ ]
+                    }
+                ]
+            }
+        ]
+    }
+}

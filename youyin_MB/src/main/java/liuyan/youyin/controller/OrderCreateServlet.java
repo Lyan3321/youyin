@@ -68,17 +68,25 @@ public class OrderCreateServlet extends HttpServlet {
 		Map<String, String> params = new HashMap<String, String>();
 		//订单数加1
 		count++;
+		//新建订单Map，存储订单队列
+		Map<String, String> orderMap = new HashMap<String, String>();
+		Order order = new Order();
+		order.setOrderID(String.valueOf(count));
 		
 		try {
 			List<FileItem> items = upload.parseRequest(request);
 			//2,遍历items：若是一个一般的表单域，打印信息
 			for(FileItem item: items){
-				Order order = new Order();
+				
 				
 				if(item.isFormField()){
 					String name = item.getFieldName();
 					String value = new String(item.getString().getBytes("ISO-8859-1"),"UTF-8");
 					System.out.println(name + ":" + value);
+					//orderMap.put(name, value);
+					if(name == "username"){
+						order.setUserID(value);
+					}
 				}else{
 					//得到item的信息
 					String fieldName = item.getFieldName();
@@ -101,6 +109,10 @@ public class OrderCreateServlet extends HttpServlet {
 					filePath = getServletContext().getRealPath(FILE_PATH) + "\\" + fileName;
 //					fileName = "G:\\apache-tomcat-7.0.73\\webapps\\youyin_MB\\files\\" + fileName;
 					System.out.println(filePath);
+					order.setImageURL(filePath);
+					
+					//检查订单是有重复
+					int flag = order.checkOrder();
 					
 					OutputStream out = new FileOutputStream(filePath);
 					
@@ -109,6 +121,7 @@ public class OrderCreateServlet extends HttpServlet {
 					}
 					out.close();
 					in.close();
+					/*
 					//创建订单状态数据
 					OrderStatus orderStatus = new OrderStatus();
 					orderStatus.setState(OrderStatus.ORDER_STATUS_CREATED);
@@ -137,7 +150,9 @@ public class OrderCreateServlet extends HttpServlet {
 					writer.close();
 					
 					//转发到节点
-					HttpUtils.sendGet(GlobalConstants.getInterfaceUrl("node1"), params);
+					//HttpUtils.sendGet(GlobalConstants.getInterfaceUrl("node1"), params);
+					
+					 */
 				}
 			}
 		} catch (Exception e) {

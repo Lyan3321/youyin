@@ -1,11 +1,22 @@
 package liuyan.youyin.pojo;
 
+import java.io.File;
+import java.io.IOException;
+
+import liuyan.youyin.service.OrderService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 public class Order {
 
-	private String orderID;
-	private String userID;
-	private String imageURL;
-	private OrderStatus status;
+	private int flag = 0;
+	public final static String path = "D:/order.json";
+	public JSONArray jsonArray = null;
+	public JSONObject jsonObject = null;
+	private String orderID = "-10";
+	private String userID = "-10";
+	private String imageURL = "-10";
+	private OrderStatus status = null;
 	public String getOrderID() {
 		return orderID;
 	}
@@ -39,6 +50,62 @@ public class Order {
 		this.status = status;
 	}
 	
-	public Order(){}
+	public Order(){
+		File file = new File(path);
+		if(!file.exists()){
+			createFile();
+		}
+		jsonArray = OrderService.readJsonFromFile(path);
+//		jsonObject = jsonArray.getJSONObject(0);
+//		//遍订单队列
+//		for(int i = 0;i < jsonArray.size();i++){
+//			
+//		}
+//		orderID = (String) getValue("orderID");
+		
+	}
+	private void createFile() {
+		// TODO Auto-generated method stub
+		File file = new File(path);
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		jsonArray = new JSONArray();
+		jsonObject = new JSONObject();
+		updateRecord();
+	}
 	
+	private void updateRecord() {
+
+		jsonObject.put("orderID", orderID);
+		jsonObject.put("userID", userID);
+		jsonObject.put("imageURL", imageURL);
+		jsonArray.clear();
+		jsonArray.add(jsonObject);
+		OrderService.writeJsonToFile(path, jsonArray);
+	}
+	
+	public Object getValue(String key){
+		if(jsonObject.get(key)!=null&&!jsonObject.get(key).equals("")){
+			return(jsonObject.get(key));
+		}
+		jsonObject.put(key, "-10");
+		jsonArray.clear();
+		return null;
+	}
+	
+	public int checkOrder(){
+		for(int i = 0;i < jsonArray.size();i++ ){
+			if(jsonArray.getJSONObject(i).get("userID")== userID){
+				return 0;
+			}
+		}
+		jsonObject = JSONObject.fromObject(this);
+		jsonArray.add(jsonObject);
+		OrderService.writeJsonToFile(path,jsonArray);
+		return 1;
+	}
 }

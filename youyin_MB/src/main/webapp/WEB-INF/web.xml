@@ -18,6 +18,10 @@
 		<servlet-name>NodeConnection</servlet-name>
 		<servlet-class>liuyan.youyin.controller.NodeConnection</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>JSSDK_config</servlet-name>
+		<servlet-class>liuyan.youyin.controller.JSSDK_config</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>loginServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
@@ -33,6 +37,10 @@
 	<servlet-mapping>
 		<servlet-name>NodeConnection</servlet-name>
 		<url-pattern>/nodeconnection</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JSSDK_config</servlet-name>
+		<url-pattern>/jssdk</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
