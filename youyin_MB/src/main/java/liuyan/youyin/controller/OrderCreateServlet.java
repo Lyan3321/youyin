@@ -54,6 +54,10 @@ public class OrderCreateServlet extends HttpServlet {
 	
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		String openid = (String) request.getSession().getAttribute("openid");
+		System.out.println(Queue.userOrder.get(openid));
+		System.out.println(openid);
+		
 		//1,得到FileItemde 集合items
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		
@@ -93,10 +97,10 @@ public class OrderCreateServlet extends HttpServlet {
 					String fileName = item.getName();
 					String contentType = item.getContentType();
 					long sizeInBytes = item.getSize();
-					System.out.println(fieldName);
-					System.out.println(fileName);
-					System.out.println(contentType);
-					System.out.println(sizeInBytes);
+//					System.out.println(fieldName);
+//					System.out.println(fileName);
+//					System.out.println(contentType);
+//					System.out.println(sizeInBytes);
 					//从item中获取文件名，并拼接系统时间纺织重复
 					fileName = System.currentTimeMillis() + fileName;
 					//将文件名加入到Map集合中
