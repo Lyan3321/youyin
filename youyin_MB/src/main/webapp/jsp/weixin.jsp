@@ -1,11 +1,10 @@
-
-<!DOCTYPE html>
-<html lang="zh-CN">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width,initial-scale=1,user-scalable=0">
-<title>youyin</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>weixin</title>
 <script src="/youyin_MB/js/jquery.min.js"></script>
 <!-- 中国省市区地址三级联动jQuery插件 -->
 <script src="/youyin_MB/js/distpicker.js"></script>
@@ -70,8 +69,7 @@
 			$.ajax({
 				type : "POST", // 上传文件要用POST
 				//url : "/youyin_MB/savePic",
-				//url: "/youyin_MB/ordercreate",
-				url:"/youyin_MB/order",
+				url: "/youyin_MB/ordercreate",
 				dataType : "json",
 				crossDomain : true, // 如果用到跨域，需要后台开启CORS
 				processData : false, // 注意：不要 process data

@@ -11,8 +11,8 @@ public class OrderStatus {
 	public static final int ORDER_STATUS_FINISH_FAILURE = 6;
 	
 	private int state;
-	private int errorCode;
-	private String errorMsg;
+	private int errorCode = 0;
+	private String errorMsg = "";
 	
 	public int getState() {
 		return state;

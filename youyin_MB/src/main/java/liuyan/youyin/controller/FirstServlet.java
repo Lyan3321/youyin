@@ -40,8 +40,8 @@ public class FirstServlet extends HttpServlet {
 				String openid = (String) jsonObject.get("openid");
 				if(openid!=null&&openid!=""){
 				request.getSession().setAttribute("openid", openid);
-				Order order = new Order();
-				Queue.userOrder.put(openid, order);
+//				Order order = new Order();
+//				Queue.userOrder.put(openid, order);
 				}
 //				System.out.println(request.getSession().getAttribute("openid"));
 				request.getRequestDispatcher("/html5/weixin.html").forward(request, response);

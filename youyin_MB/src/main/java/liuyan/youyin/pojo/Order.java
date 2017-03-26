@@ -7,6 +7,11 @@ import liuyan.youyin.service.OrderService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+/**
+ * 该类实现本地储存订单
+ * @author Frank
+ *
+ */
 public class Order {
 
 	private int flag = 0;
